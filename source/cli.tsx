@@ -2,7 +2,7 @@
 import React from 'react';
 import {render} from 'ink';
 import meow from 'meow';
-import App from './app.js';
+import { App, MeetingType } from './app.js';
 
 const cli = meow(
 	`
@@ -10,20 +10,23 @@ const cli = meow(
 	  $ ai-meeting-coach
 
 	Options
-		--name  Your name
+		--type  The type of meeting you want to coach for
 
 	Examples
-	  $ ai-meeting-coach --name=Jane
-	  Hello, Jane
+	  $ ai-meeting-coach --type=refinement
+	  Listening to the refinement meeting...
 `,
 	{
+		description: 'AI meeting coach',
+		autoHelp: true,
 		importMeta: import.meta,
 		flags: {
-			name: {
+			type: {
 				type: 'string',
+				choices: ['business', 'refinement', 'retrospective', 'standup'],
 			},
 		},
 	},
 );
 
-render(<App name={cli.flags.name} />);
+render(<App meetingType={cli.flags.type as MeetingType} />);
